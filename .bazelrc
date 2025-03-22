@@ -1,0 +1,23 @@
+# Common
+common --enable_platform_specific_config
+common --incompatible_strict_action_env
+common --show_timestamps
+common --verbose_failures
+
+common --toolchain_resolution_debug=all
+test --test_output=all
+
+# Windows
+startup --windows_enable_symlinks
+build --enable_runfiles
+### Shell
+#### common:windows --shell_executable="C:\msys64\usr\bin\bash.exe"
+#### Or set BAZEL_SH to C:\msys64\usr\bin\bash.exe
+
+# Linux
+
+# remote
+#common:remote --remote_executor=grpc://<ip>:<port> #optionally the remote platform# --remote_default_exec_properties=platform=<remote_platform>
+
+# credential_helper
+# common --credential_helper=./conf/credentials.sh

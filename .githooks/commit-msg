@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Define the allowed commit message regex
+COMMIT_MSG_REGEX="^(feat|fix|wip|docs|refactor|test)\: .+"
+
+# Read the commit message
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat $COMMIT_MSG_FILE)
+
+# Validate commit message
+if [[ ! $COMMIT_MSG =~ $COMMIT_MSG_REGEX ]]; then
+    echo "Error: Commit message does not follow the required format. ($COMMIT_MSG_REGEX)"
+    echo "Allowed format: <type>: <description>"
+    echo "Example: feat: msg"
+
+    echo "<type>:"
+    echo "        - feat"
+    echo "        - fix"
+    echo "        - wip"
+    echo "        - docs"
+    echo "        - refactor"
+    echo "        - test"
+    exit 1
+fi

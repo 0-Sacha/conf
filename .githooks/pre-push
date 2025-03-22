@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Define the allowed branch name regex
+BRANCH_REGEX="^(feature|bugfix|hotfix|release|refactor)\/[a-z0-9_]+$|^dev$|^main$"
+
+# Get the current branch name
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+
+# Validate branch name
+if [[ ! $BRANCH_NAME =~ $BRANCH_REGEX ]]; then
+    echo "Error: Branch name '$BRANCH_NAME' does not match the required pattern. ($BRANCH_REGEX)"
+    echo "Allowed pattern: \`<type>/<branch_name>\` or \`dev\` or \`main\`"
+    echo "Example: feature/bump_to_cxx20"
+
+    echo "<type>:"
+    echo "        - feature"
+    echo "        - bugfix"
+    echo "        - hotfix"
+    echo "        - release"
+    echo "        - refactor"
+    exit 1
+fi

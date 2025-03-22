@@ -1,0 +1,65 @@
+---
+BasedOnStyle: Google
+IncludeBlocks: Preserve
+SortIncludes: Never
+IncludeCategories:
+  - Regex: '".*"'
+    Priority: 1
+    SortPriority: 0
+    CaseSensitive: false
+  - Regex: '".*/.*"'
+    Priority: 2
+    SortPriority: 0
+    CaseSensitive: false
+  - Regex: '<.*>'
+    Priority: 3
+    SortPriority: 0
+    CaseSensitive: false
+IncludeIsMainRegex: ""
+AlignArrayOfStructures: Right
+AlignConsecutiveDeclarations:
+  Enabled: true
+  AcrossComments: true
+  PadOperators: true
+DerivePointerAlignment: false
+PointerAlignment: Left
+ReferenceAlignment: Left
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterControlStatement: false
+  BeforeElse: false
+  BeforeCatch: false
+  AfterStruct: false
+  AfterClass: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterEnum: false
+  AfterUnion: false
+  IndentBraces: false
+AccessModifierOffset: -4
+NamespaceIndentation: All
+AllowShortBlocksOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: false
+BreakAfterAttributes: Never
+SpacesInParentheses: false
+SpaceAfterCStyleCast: false
+AlignConsecutiveAssignments: true
+AlignTrailingComments: true
+SpaceBeforeParens: ControlStatements
+IntegerLiteralSeparator:
+  Binary: 4
+  BinaryMinDigits: 4
+  Decimal: 3
+  DecimalMinDigits: 3
+  Hex: 2
+  HexMinDigits: 4
+LambdaBodyIndentation: OuterScope
+ColumnLimit: 180
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+LineEnding: LF
+MaxEmptyLinesToKeep: 2
