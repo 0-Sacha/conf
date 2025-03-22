@@ -23,6 +23,7 @@ CLANG_FORMAT_CONFIG="./conf/linter/RustLike/.clang-format"
 FILES_LIST_PARSE=(-name "*.c" -o -name "*.cc" -o -name "*.cpp" -o -name "*.cxx" -o -name "*.h" -o -name "*.hh" -o -name "*.hpp" -o -name "*.hxx")
 DEFAULT_SEARCH_LIST=(src tests)
 SEARCH_LIST=()
+SILENT="off"
 while [[ $# -gt 0 ]]; do
     case $1 in
         --mode|-m)
@@ -35,6 +36,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --config|-c)
             CLANG_FORMAT_CONFIG="$2"
+            shift 2
+            ;;
+        --silent)
+            SILENT="on"
             shift 2
             ;;
         *)
@@ -61,9 +66,18 @@ if [[ -z "$FILES" ]]; then
     exit 0
 fi
 
+FILES_ARRAY=($FILES)
+TOTAL_FILES_SIZES="${#FILES_ARRAY[@]}"
+CURRENT_FILE=1
+
 # Run clang-format
 ALL_PASSED=true
 for FILE in $FILES; do
+    if [[ "$SILENT" == "off" ]]; then
+        echo "Analyzing file '$FILE' [$CURRENT_FILE/$TOTAL_FILES_SIZES]"
+        CURRENT_FILE=$((CURRENT_FILE+1))
+    fi
+
     if [[ "$MODE" == "dry" ]]; then
         clang-format --style=file:$CLANG_FORMAT_CONFIG --dry-run --Werror "$FILE" || ALL_PASSED=false
     else
