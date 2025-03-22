@@ -53,7 +53,7 @@ if [[ ! -f "$CLANG_FORMAT_CONFIG" ]]; then
 fi
 
 # Find files
-FILES=$(find $SEARCH_LIST -type f \( -name "*.c" -o -name "*.cpp" -o -name "*.h" \))
+FILES=$(find $SEARCH_LIST -type f \( -name "*.c" -o -name "*.cc" -o -name "*.cpp" -o -name "*.cxx" -o -name "*.h" -o -name "*.hh" -o -name "*.hpp" -o -name "*.hxx" \))
 if [[ -z "$FILES" ]]; then
     echo "No source files found in '$SEARCH_LIST'."
     exit 0
