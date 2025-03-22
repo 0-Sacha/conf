@@ -49,13 +49,14 @@ SpaceAfterCStyleCast: false
 AlignConsecutiveAssignments: true
 AlignTrailingComments: true
 SpaceBeforeParens: ControlStatements
-IntegerLiteralSeparator:
-  Binary: 4
-  BinaryMinDigits: 4
-  Decimal: 3
-  DecimalMinDigits: 3
-  Hex: 2
-  HexMinDigits: 4
+# Better to do it manually
+# IntegerLiteralSeparator:
+#   Binary: 4
+#   BinaryMinDigits: 4
+#   Decimal: 3
+#   DecimalMinDigits: 3
+#   Hex: 2
+#   HexMinDigits: 4
 LambdaBodyIndentation: OuterScope
 ColumnLimit: 180
 IndentWidth: 4
