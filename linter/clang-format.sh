@@ -18,10 +18,11 @@ if [[ "$version" -lt 18 ]]; then
   exit 1
 fi
 
-DEFAULT_SEARCH_LIST="src tests"
-SEARCH_LIST=""
 MODE="dry"
 CLANG_FORMAT_CONFIG="./conf/linter/RustLike/.clang-format"
+FILES_LIST_PARSE=(-name "*.c" -o -name "*.cc" -o -name "*.cpp" -o -name "*.cxx" -o -name "*.h" -o -name "*.hh" -o -name "*.hpp" -o -name "*.hxx")
+DEFAULT_SEARCH_LIST=(src tests)
+SEARCH_LIST=()
 while [[ $# -gt 0 ]]; do
     case $1 in
         --mode|-m)
@@ -37,14 +38,15 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         *)
-            SEARCH_LIST="$SEARCH_LIST $1"
+            SEARCH_LIST+=($1)
             shift
             ;;
     esac
 done
 
-if [[ -z "$SEARCH_LIST" ]]; then
-    SEARCH_LIST=$DEFAULT_SEARCH_LIST
+if [ ${#SEARCH_LIST[@]} -eq 0 ]; then
+    SEARCH_LIST=("${DEFAULT_SEARCH_LIST[@]}")
+    echo "search list is empty, using the default list: ${SEARCH_LIST[@]}"
 fi
 
 if [[ ! -f "$CLANG_FORMAT_CONFIG" ]]; then
@@ -53,9 +55,9 @@ if [[ ! -f "$CLANG_FORMAT_CONFIG" ]]; then
 fi
 
 # Find files
-FILES=$(find $SEARCH_LIST -type f \( -name "*.c" -o -name "*.cc" -o -name "*.cpp" -o -name "*.cxx" -o -name "*.h" -o -name "*.hh" -o -name "*.hpp" -o -name "*.hxx" \))
+FILES=$(find ${SEARCH_LIST[@]} -type f \( ${FILES_LIST_PARSE[@]} \))
 if [[ -z "$FILES" ]]; then
-    echo "No source files found in '$SEARCH_LIST'."
+    echo "No source files found in '$SEARCH_LIST'"
     exit 0
 fi
 
@@ -75,5 +77,5 @@ if [[ "$ALL_PASSED" == false ]]; then
     exit 1
 fi
 
-echo "All files processed successfully."
+echo "All files processed successfully !"
 exit 0
