@@ -2,14 +2,14 @@
 Checks: >
   -*,
   misc-const-correctness,
+  readability-*,
   readability-identifier-length,
   readability-non-const-parameter,
   readability-identifier-naming,
-  readability-*,
+  readability-braces-around-statements,
   -readability-simplify-boolean-expr,
   -readability-redundant-access-specifiers,
   -readability-uppercase-literal-suffix,
-  -readability-braces-around-statements,
   
 WarningsAsErrors: 'readability-*'
 CheckOptions:
