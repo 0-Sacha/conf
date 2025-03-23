@@ -27,6 +27,7 @@ DEFAULT_SEARCH_LIST=(src tests)
 SEARCH_LIST=()
 FILES_LIST_PARSE=(-name "*.c" -o -name "*.cc" -o -name "*.cpp" -o -name "*.cxx")
 SILENT="off"
+APPLY="off"
 while [[ $# -gt 0 ]]; do
     case $1 in
         --json|-p)
@@ -41,10 +42,15 @@ while [[ $# -gt 0 ]]; do
             CLANG_TIDY_CONFIG="$2"
             shift 2
             ;;
+        --apply)
+            APPLY="on"
+            shift
+            ;;
         --silent)
             SILENT="on"
             shift 2
             ;;
+
         *)
             SEARCH_LIST+=($1)
             shift
@@ -82,7 +88,13 @@ for FILE in $FILES; do
         echo "Analyzing file '$FILE' [$CURRENT_FILE/$TOTAL_FILES_SIZES]"
         CURRENT_FILE=$((CURRENT_FILE+1))
     fi
-    clang-tidy --config-file=$CLANG_TIDY_CONFIG -p compile_commands.json "$FILE" || ALL_PASSED=false
+
+    if [[ "$APPLY" == "off" ]]; then
+        clang-tidy --config-file=$CLANG_TIDY_CONFIG -p compile_commands.json "$FILE" || ALL_PASSED=false
+    else
+        clang-tidy --config-file=$CLANG_TIDY_CONFIG --fix -p compile_commands.json "$FILE" || ALL_PASSED=false
+    fi
+    
 done
 
 # Exit with appropriate status

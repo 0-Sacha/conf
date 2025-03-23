@@ -9,6 +9,7 @@ Checks: >
   -readability-simplify-boolean-expr,
   -readability-redundant-access-specifiers,
   -readability-uppercase-literal-suffix,
+  -readability-braces-around-statements,
   
 WarningsAsErrors: 'readability-*'
 CheckOptions:

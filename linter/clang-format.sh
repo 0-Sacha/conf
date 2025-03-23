@@ -18,29 +18,25 @@ if [[ "$version" -lt 18 ]]; then
   exit 1
 fi
 
-MODE="dry"
 CLANG_FORMAT_CONFIG="./conf/linter/RustLike/.clang-format"
 FILES_LIST_PARSE=(-name "*.c" -o -name "*.cc" -o -name "*.cpp" -o -name "*.cxx" -o -name "*.h" -o -name "*.hh" -o -name "*.hpp" -o -name "*.hxx")
 DEFAULT_SEARCH_LIST=(src tests)
 SEARCH_LIST=()
 SILENT="off"
+APPLY="off"
 while [[ $# -gt 0 ]]; do
     case $1 in
-        --mode|-m)
-            if [[ "$2" != "dry" && "$2" != "exec" ]]; then
-                echo "Invalid mode. Must be 'dry' or 'exec'."
-                usage
-            fi
-            MODE="$2"
-            shift 2
-            ;;
         --config|-c)
             CLANG_FORMAT_CONFIG="$2"
             shift 2
             ;;
+        --apply)
+            APPLY="on"
+            shift
+            ;;
         --silent)
             SILENT="on"
-            shift 2
+            shift
             ;;
         *)
             SEARCH_LIST+=($1)
@@ -78,7 +74,7 @@ for FILE in $FILES; do
         CURRENT_FILE=$((CURRENT_FILE+1))
     fi
 
-    if [[ "$MODE" == "dry" ]]; then
+    if [[ "$APPLY" == "off" ]]; then
         clang-format --style=file:$CLANG_FORMAT_CONFIG --dry-run --Werror "$FILE" || ALL_PASSED=false
     else
         clang-format --style=file:$CLANG_FORMAT_CONFIG -i "$FILE"
