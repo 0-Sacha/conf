@@ -10,19 +10,34 @@ Extra args are used to set the lists of folders scanned (default list is `src` a
 
 `clang-format` dry mode, here only the `tests` folder will be scanned:
 ```
-./conf/linter/clang-format.sh tests
+./conf/scripts/clang-format.sh tests
 ```
 
-`clang-format` exec mode:
+`clang-format` apply mode:
 ```
-./conf/linter/clang-format.sh -m exec
+./conf/scripts/clang-format.sh --apply
+```
+
+`clang-format` apply mode, using the multithreaded python script (recommended):
+```
+./conf/scripts/clang-format.py --apply
 ```
 
 ## clang-tidy
 The first arg has to be the bazel rule that generate the compile_commands.json see [hedronvision/bazel-compile-commands-extractor](https://github.com/hedronvision/bazel-compile-commands-extractor)
 Following args are used to set the folder in which clang-tidy will be executed (default list is `src` and `tests`) 
 ```
-./conf/linter/clang-tidy.sh //:my_compile_command src tests
+./conf/scripts/clang-tidy.sh //:my_compile_command src tests
+```
+
+Same, you can use apply
+```
+./conf/scripts/clang-tidy.sh //:my_compile_command src tests --apply
+```
+
+And there is a multithreaded python version (recommended)
+```
+./conf/scripts/clang-tidy.py //:my_compile_command src tests --apply
 ```
 
 ## Coverage
