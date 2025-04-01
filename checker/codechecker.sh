@@ -72,8 +72,8 @@ CodeChecker analyze compile_commands.json -j32 -o .checker/reports/latest \
     --disable readability-uppercase-literal-suffix \
     --disable readability-identifier-length \
     --disable readability-redundant-access-specifiers \
-    --disable bugprone-easily-swappable-parameters \
     --disable readability-simplify-boolean-expr \
+    --disable bugprone-easily-swappable-parameters \
     \
     \
     --disable altera-struct-pack-align \

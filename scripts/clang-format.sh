@@ -30,6 +30,10 @@ while [[ $# -gt 0 ]]; do
             CLANG_FORMAT_CONFIG="$2"
             shift 2
             ;;
+        --checker)
+            CLANG_FORMAT_CONFIG="./conf/checker/.clang-format"
+            shift
+            ;;
         --apply)
             APPLY="on"
             shift

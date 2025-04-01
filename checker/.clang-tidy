@@ -1,0 +1,46 @@
+---
+Checks: >
+  -*,
+  readability-*,
+  cert-*,
+  clang-analyzer-*,
+  cppcoreguidelines-*,
+  google-*,
+  hicpp-*,
+  llvm-*,
+  modernize-*,
+  performance-*,
+  bugprone-*,
+  misc-*,
+  portability-*,
+  fuchsia-*,
+  -altera-*,
+  -misc-include-cleaner,
+  -misc-no-recursion,
+  -llvm-header-guard,
+  -modernize-use-trailing-return-type,
+  -llvm-include-order,
+  -llvm-namespace-comment,
+  -fuchsia-default-arguments-calls,
+  -fuchsia-default-arguments-declarations,
+  -readability-identifier-length,
+  -readability-simplify-boolean-expr,
+  -readability-redundant-access-specifiers,
+  -readability-uppercase-literal-suffix,
+  -hicpp-uppercase-literal-suffix,
+  -performance-avoid-endl,
+  -bugprone-easily-swappable-parameters,
+  -portability-simd-intrinsics,
+  -llvm-header-guard,
+  -cppcoreguidelines-pro-type-union-access,
+  -cppcoreguidelines-macro-usage,
+  
+WarningsAsErrors: '*'
+
+CheckOptions:
+  - key: cppcoreguidelines-pro-type-reinterpret-cast.StrictMode
+    value: true
+  - key: cppcoreguidelines-no-malloc.Strict
+    value: true
+  - key: performance-unnecessary-value-param.IncludeStrippedType
+    value: true
