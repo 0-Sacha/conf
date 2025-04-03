@@ -29,7 +29,9 @@ def parse_arguments():
     parser.add_argument("-c", "--config", default="./conf/linter/RustLike/.clang-format", help="Path to .clang-tidy config")
     parser.add_argument("--apply", action="store_true", help="Apply fixes with clang-tidy")
     parser.add_argument("--silent", action="store_true", help="Suppress output messages")
-    parser.add_argument("search_list", nargs="*", default=["src", "tests"], help="Directories to search for source files")
+    parser.add_argument("-f", "--folder", action="append", help="Directories to search for source files (can be specified multiple times) (Default is [\"src\", \"tests\"])")
+    parser.add_argument("-j", "--jobs", type=int, default=os.cpu_count(), help="max parallels jobs")
+    parser.add_argument("--clang-format-bin", default="clang-format", help="clang-format binary")
     return parser.parse_args()
 
 def find_source_files(search_list):
@@ -40,8 +42,8 @@ def find_source_files(search_list):
             files.extend(Path(directory).rglob(f"*{ext}"))
     return files
 
-def run_clang_format(file, config, apply, silent, index, total):  
-    cmd = ["clang-format", f"--style=file:{config}", str(file)]
+def run_clang_format(file, config, apply, silent, clang_format_bin, index, total):  
+    cmd = [clang_format_bin, f"--style=file:{config}", str(file)]
     if apply:
         cmd.append("-i")
     else:
@@ -60,6 +62,9 @@ def run_clang_format(file, config, apply, silent, index, total):
 def main():
     args = parse_arguments()
     
+    if not args.folder:
+        args.folder = ["src", "tests"]
+
     version = get_clang_format_version()
     if version < 18:
         print(red(f"clang-format version is {version}; EXPECTED higher or equal than 18"))
@@ -69,9 +74,9 @@ def main():
         print(red(f"Error: Configuration file '{args.config}' does not exist !"))
         sys.exit(1)
     
-    files = find_source_files(args.search_list)
+    files = find_source_files(args.folder)
     if not files:
-        print(f"No source files found in {args.search_list} !")
+        print(f"No source files found in {args.folder} !")
         sys.exit(0)
     
     total_files = len(files)
@@ -80,8 +85,8 @@ def main():
         print(f"Found {total_files} source files")
     
     all_passed = True
-    with ThreadPoolExecutor() as executor:
-        results = executor.map(lambda f: run_clang_format(f, args.config, args.apply, args.silent, files.index(f)+1, total_files), files)
+    with ThreadPoolExecutor(max_workers=args.jobs) as executor:
+        results = executor.map(lambda f: run_clang_format(f, args.config, args.apply, args.silent, args.clang_format_bin, files.index(f)+1, total_files), files)
         if not all(results):
             all_passed = False
     
